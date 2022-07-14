@@ -17,39 +17,37 @@ import AddCardIcon from '@mui/icons-material/AddCard';
 export default function ModalSigle({ single }) {
     return (
         <>
-            {single &&
-                <Table>
-                    <TableBody>
-                        <TableRow
-                        >
-                            <TableCell className='fs-6'  >
-                                Full Name
-                            </TableCell>
-                            <TableCell className='fs-6'  >{single.fullname}</TableCell>
-                        </TableRow>
-                        <TableRow
-                        >
-                            <TableCell className='fs-6'  >
-                                Accounts #
-                            </TableCell>
-                            <TableCell className='fs-6' >{single.Accountnumber}</TableCell>
-                        </TableRow>
-                        <TableRow
-                        >
-                            <TableCell className='fs-6' >
-                                Type
-                            </TableCell>
-                            <TableCell className='fs-6' >{single.type}</TableCell>
-                        </TableRow> <TableRow
-                        >
-                            <TableCell className='fs-6' >
-                                Balance
-                            </TableCell>
-                            <TableCell className='fs-6'  >{single.initial}</TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
-            }
+            <Table>
+                <TableBody>
+                    <TableRow
+                    >
+                        <TableCell className='fs-6'  >
+                            Full Name
+                        </TableCell>
+                        <TableCell className='fs-6'  >{single.fullname}</TableCell>
+                    </TableRow>
+                    <TableRow
+                    >
+                        <TableCell className='fs-6'  >
+                            Accounts #
+                        </TableCell>
+                        <TableCell className='fs-6' >{single.Accountnumber}</TableCell>
+                    </TableRow>
+                    <TableRow
+                    >
+                        <TableCell className='fs-6' >
+                            Type
+                        </TableCell>
+                        <TableCell className='fs-6' >{single.type}</TableCell>
+                    </TableRow> <TableRow
+                    >
+                        <TableCell className='fs-6' >
+                            Balance
+                        </TableCell>
+                        <TableCell className='fs-6'  >{single.initial}</TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
             <div className='float-end mt-3'>
                 <Stack direction="row" spacing={2}>
                     <Button variant="outlined" startIcon={<AddCardIcon />}>

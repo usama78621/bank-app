@@ -18,6 +18,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ModalSigle from './ModalSigle';
 import '../../../scss/_accounts.scss'
 import Stack from '@mui/material/Stack';
+import CloseIcon from '@mui/icons-material/Close';
+import { useAccountsContext } from '../../../context/AccountsContext';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -25,98 +27,45 @@ const style = {
     transform: 'translate(-50%, -50%)',
     width: 400,
     bgcolor: 'background.paper',
-    border: '2px solid #000',
     boxShadow: 24,
-    p: 4,
+    p: 2,
 };
 const columns = [
     { id: 'name', label: 'Name', minWidth: 170 },
     {
         id: 'Account',
         label: 'Account #',
-        minWidth: 170,
-        align: 'right',
-        format: (value) => value.toLocaleString('en-US'),
     },
     { id: 'code', label: 'Branch Code', minWidth: 100 },
     {
         id: 'Type',
         label: 'Type',
-        minWidth: 170,
-        align: 'right',
-        format: (value) => value.toLocaleString('en-US'),
     },
     {
         id: 'Balance',
         label: 'Balance',
-        minWidth: 170,
-        align: 'right',
-        format: (value) => value.toLocaleString('en-US'),
     },
 
 ];
 
-const collectionName = "Accounts";
-const docsCollectionRef = collection(firestore, collectionName)
+
 export default function Accounts() {
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
-    const [isLoading, setIsLoading] = React.useState(false)
-    const [documents, setDocuments] = React.useState([])
-    const [open, setOpen] = React.useState(false);
-    const [opendelete, setOpendelete] = React.useState(false);
-    const [single, setSignle] = React.useState({})
-
-    const handleopen2 = () => {
-        setOpendelete(true)
-    }
-    const handlecolse2 = () => {
-        setOpendelete(false)
-    }
-    const handleOpen = (id) => {
-        documents.forEach((doc) => {
-            if (doc.id === id) {
-                setSignle(doc)
-                return
-            }
-            setOpen(true);
-        })
-    }
-    React.useEffect(() => {
-        handleOpen()
-    }, [])
-
-    const handleClose = () => setOpen(false);
-
-    const readDocs = async () => {
-        setIsLoading(true)
-        let array = []
-        const querySnapshot = await getDocs(docsCollectionRef);
-        querySnapshot.forEach((doc) => {
-            array.push({ ...doc.data(), id: doc.id });
-        })
-        setDocuments(array);
-        setIsLoading(false)
-    }
-
-    useEffect(() => {
-        readDocs();
-    }, []);
-    const handleDelete = async (row) => {
-        await deleteDoc(doc(firestore, collectionName, row.id))
-        let array = documents.filter((items) => {
-            return row.id !== items.id;
-        });
-        alert("Delete")
-        setDocuments(array)
-    }
-    const handleChangePage = (event, newPage) => {
-        setPage(newPage);
-    };
-    const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
-    };
+    const {
+        page,
+        rowsPerPage,
+        isLoading,
+        documents,
+        open,
+        opendelete,
+        single,
+        handleClose,
+        handlecolse2,
+        handleOpen,
+        handleopen2,
+        handleChangePage,
+        handleChangeRowsPerPage,
+        handleDelete
+    } = useAccountsContext()
 
     if (isLoading) {
         return <h1 className='text-center mt-5'>...Loading</h1>
@@ -167,8 +116,11 @@ export default function Accounts() {
                                                     <Box sx={style}  >
                                                         <h5>Are you sure you want to delete <br /> your Bank Account?</h5>
                                                         <Stack direction="row" className="float-end" spacing={2}>
-                                                            <Button size="small" variant="contained" color="success" >No</Button>
-                                                            <Button size="small" variant="contained" color="error" startIcon={<DeleteIcon />}>Yes</Button>
+                                                            <Button size="small" variant="contained" color="success" startIcon={<CloseIcon />} onClick={handlecolse2} >No
+                                                            </Button>
+                                                            <Button size="small"
+                                                                onClick={() => handleDelete(row)}
+                                                                variant="contained" color="error" startIcon={<DeleteIcon />}>Yes</Button>
                                                         </Stack>
                                                     </Box>
                                                 </Modal>

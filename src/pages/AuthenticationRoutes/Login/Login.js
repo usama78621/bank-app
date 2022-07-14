@@ -24,6 +24,7 @@ const Login = () => {
     }
     const handleClick = (e) => {
         e.preventDefault();
+        setIsLoading(true)
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
@@ -53,7 +54,10 @@ const Login = () => {
                     draggable: true,
                     progress: undefined,
                 });
-            });
+            })
+            .finally(() => {
+                setIsLoading(false)
+            })
     }
 
     return (
@@ -89,7 +93,13 @@ const Login = () => {
                             <div className='text-end'>
                                 <p>Forgot Password</p>
                             </div>
-                            <button className='btn btn-success'>Submit</button>
+                            <button disabled={isLoading} className='btn btn-success'>
+                                {!isLoading
+                                    ? "Login"
+                                    : <div className='spinner-border spinner-border-sm'></div>
+
+                                }
+                            </button>
                             <div className='text-center d-inline mt-4 ' >
                                 <i className="fa-brands fa-facebook fs-2 btn" style={{
                                     color: "#1877f2"

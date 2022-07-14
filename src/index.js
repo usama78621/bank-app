@@ -1,15 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import { AccountProvider } from './context/AccountsContext';
 import { AppProvider } from './context/UserContext';
 import reportWebVitals from './reportWebVitals';
 // import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <AppProvider>
-      <App />
+      <AccountProvider>
+        <App />
+      </AccountProvider>
     </AppProvider>
   </React.StrictMode>
 );
