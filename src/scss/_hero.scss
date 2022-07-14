@@ -1,0 +1,18 @@
+.hero {
+    background: url("../accesst/img1\ \(2\).jpg");
+    min-height: calc(100vh - 120px);
+    background-size: cover;
+    background-position: center;
+
+    .container {
+
+        .card-custom {
+            background-color: aquamarine;
+            margin-top: 200px;
+
+            .btn:focus {
+                box-shadow: 0 0 0 0;
+            }
+        }
+    }
+}
