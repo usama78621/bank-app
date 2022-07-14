@@ -85,7 +85,8 @@ const AccountProvider = ({ children }) => {
             handleopen2,
             handleChangePage,
             handleChangeRowsPerPage,
-            handleDelete
+            handleDelete,
+            setIsLoading,
         }}>
             {children}
         </AccountContext.Provider>

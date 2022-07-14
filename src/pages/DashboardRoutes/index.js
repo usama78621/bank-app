@@ -24,7 +24,7 @@ const Index = (props) => {
                 <Routes>
                     <Route path='/'>
                         <Route index element={<Dashboard />} />
-                        <Route path='account' element={<AddAccounts />} />
+                        <Route path='create' element={<AddAccounts />} />
                         <Route path='accounts' element={<Accounts />} />
                     </Route>
                 </Routes>

@@ -5,8 +5,10 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
+    let Navigate = useNavigate()
     return (
         <div className='container'>
             <h1>Dashboard</h1>
@@ -21,8 +23,8 @@ const Dashboard = () => {
                                 </Typography>
                                 <hr />
                                 <Typography variant="h5" className='text-center' component="div" color="text.secondary" sx={{ '& button': { m: 1 } }} >
-                                    <Button size="medium" variant="contained" color="success">Add New Accounts</Button>
-                                    <Button variant="contained" size="medium" color="primary">View All Accounts</Button>
+                                    <Button size="medium" onClick={() => Navigate('/dashboard/create')} variant="contained" color="success">Add New Accounts</Button>
+                                    <Button variant="contained" size="medium" onClick={() => Navigate('/dashboard/accounts')} color="primary">View All Accounts</Button>
                                 </Typography>
                                 <hr />
                                 <Typography variant="body2" className='text-center fs-2'>

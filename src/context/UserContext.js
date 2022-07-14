@@ -7,6 +7,7 @@ const AppContext = createContext();
 const AppProvider = ({ children }) => {
     const [Authentication, setAuthenticationRoutes] = useState(false)
     const [userid, setUserid] = useState('')
+    const [isLoader, setIsloader] = useState(true)
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -17,14 +18,16 @@ const AppProvider = ({ children }) => {
                 setAuthenticationRoutes(false)
                 setUserid("")
             }
-        }, [])
-    });
+            setIsloader(false)
+        })
+    }, [])
 
     return (
         <AppContext.Provider value={{
             Authentication,
             setAuthenticationRoutes,
-            userid
+            userid,
+            isLoader
         }}>
             {children}
         </AppContext.Provider>

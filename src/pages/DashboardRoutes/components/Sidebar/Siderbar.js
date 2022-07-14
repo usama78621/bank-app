@@ -57,13 +57,13 @@ function Sidebar({ rtl, toggled, handleToggleSidebar }) {
             <SidebarContent className="bg-white">
                 <Menu iconShape="circle">
                     <MenuItem icon={<MdDashboard />}>
-                        <Link to="/">Dashboard</Link>
+                        <Link to="/dashboard">Dashboard</Link>
                     </MenuItem>
                 </Menu>
                 <Menu iconShape="circle">
                     <SubMenu title="Products" icon={<IoBagAddSharp />}  >
                         <MenuItem>
-                            <Link to='/dashboard/account' className="text-white">
+                            <Link to='/dashboard/create' className="text-white">
                                 Add Accounts
                             </Link>
                         </MenuItem>

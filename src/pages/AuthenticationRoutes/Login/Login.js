@@ -6,9 +6,11 @@ import { toast } from 'react-toastify';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../config/Firebase-uitles";
 import { Navigate } from "react-router-dom";
+import { useAccountsContext } from '../../../context/AccountsContext'
 
 
 const Login = () => {
+    const { isLoading, setIsLoading } = useAccountsContext()
     const [isPasswordShow, setisPasswordShow] = React.useState(false)
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("")
