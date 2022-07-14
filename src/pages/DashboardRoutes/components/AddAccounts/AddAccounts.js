@@ -17,7 +17,7 @@ import { firestore } from "../../../../config/Firebase-uitles";
 
 
 export default function AddAccounts() {
-    const { userid } = useGobalContext()
+    const { user } = useGobalContext()
     const [state, setState] = React.useState({
         fullname: "",
         cnic: "",
@@ -97,13 +97,14 @@ export default function AddAccounts() {
             Accountnumber,
             type,
             initial,
-            userid,
+            userid: user.uid,
+            dateCreated: serverTimestamp()
         }
         console.log(formData);
         const collectionName = "Accounts";
         const docsCollectionRef = collection(firestore, collectionName);
         try {
-            const docRef = await addDoc(docsCollectionRef, { ...formData, Date: serverTimestamp() })
+            const docRef = await addDoc(docsCollectionRef, formData)
             console.log("ID:", docRef.id);
             setState({
                 fullname: "",

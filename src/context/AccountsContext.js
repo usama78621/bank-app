@@ -1,6 +1,7 @@
-import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
+import { collection, getDocs, deleteDoc, doc, query, where } from "firebase/firestore";
 import { firestore, } from "../config/Firebase-uitles";
 import { useState, useEffect, useContext } from "react";
+import { useGobalContext } from "./UserContext";
 const { createContext } = require("react");
 
 const AccountContext = createContext();
@@ -15,6 +16,7 @@ const AccountProvider = ({ children }) => {
     const [open, setOpen] = useState(false);
     const [opendelete, setOpendelete] = useState(false);
     const [single, setSignle] = useState({})
+    const { user } = useGobalContext()
 
     const handleopen2 = () => {
         setOpendelete(true)
@@ -47,7 +49,8 @@ const AccountProvider = ({ children }) => {
     const readDocs = async () => {
         setIsLoading(true)
         let array = []
-        const querySnapshot = await getDocs(docsCollectionRef);
+        const q = query(docsCollectionRef, where("userid", "==", user.uid));
+        const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             array.push({ ...doc.data(), id: doc.id });
         })
@@ -57,7 +60,7 @@ const AccountProvider = ({ children }) => {
 
     useEffect(() => {
         readDocs();
-    }, []);
+    }, [user.uid]);
 
 
     // handle Delete

@@ -10,7 +10,7 @@ import { useAccountsContext } from '../../../context/AccountsContext'
 
 
 const Login = () => {
-    const { isLoading, setIsLoading } = useAccountsContext()
+    const [isLoading, setisLoading] = useState(false)
     const [isPasswordShow, setisPasswordShow] = React.useState(false)
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("")
@@ -26,7 +26,7 @@ const Login = () => {
     }
     const handleClick = (e) => {
         e.preventDefault();
-        setIsLoading(true)
+        setisLoading(true)
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
@@ -58,7 +58,7 @@ const Login = () => {
                 });
             })
             .finally(() => {
-                setIsLoading(false)
+                setisLoading(false)
             })
     }
 
@@ -95,7 +95,7 @@ const Login = () => {
                             <div className='text-end'>
                                 <p>Forgot Password</p>
                             </div>
-                            <button disabled={isLoading} className='btn btn-success'>
+                            <button type='submit' disabled={isLoading} className='btn btn-success'>
                                 {!isLoading
                                     ? "Login"
                                     : <div className='spinner-border spinner-border-sm'></div>
