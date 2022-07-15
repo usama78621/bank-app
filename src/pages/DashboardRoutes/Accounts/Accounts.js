@@ -136,7 +136,7 @@ export default function Accounts() {
                                     {row.type}
                                 </TableCell>
                                 <TableCell>
-                                    {row.initial}
+                                    {row.amount}
                                 </TableCell>
 
                             </TableRow>

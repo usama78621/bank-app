@@ -24,7 +24,7 @@ export default function AddAccounts() {
         code: "",
         Accountnumber: "",
         type: "",
-        initial: "",
+        amount: "",
     })
 
     const handleChange = (e) => {
@@ -33,7 +33,7 @@ export default function AddAccounts() {
     const handleClcik = async (e) => {
         e.preventDefault();
 
-        let { cnic, code, Accountnumber, type, initial } = state
+        let { cnic, code, Accountnumber, type, amount } = state
         cnic = cnic.replace("-", "").replace(" ", "");
         if (cnic.length !== 13) {
             return toast.error('Your CNIC Number ' + cnic + ' is not Valid', {
@@ -68,7 +68,7 @@ export default function AddAccounts() {
                 progress: undefined,
             })
         }
-        if (initial < 500) {
+        if (amount < 500) {
             return toast.error('Amount is less then Rupees 500.', {
                 position: "top-right",
                 autoClose: 5000,
@@ -96,11 +96,12 @@ export default function AddAccounts() {
             code,
             Accountnumber,
             type,
-            initial,
+            amount,
             userid: user.uid,
-            dateCreated: serverTimestamp()
+            dateCreated: serverTimestamp(),
+            Desciption: "Initial Deposit"
+
         }
-        console.log(formData);
         const collectionName = "Accounts";
         const docsCollectionRef = collection(firestore, collectionName);
         try {
@@ -112,8 +113,8 @@ export default function AddAccounts() {
                 code: "",
                 Accountnumber: "",
                 type: "",
-                initial: ""
-
+                amount: "",
+                Desciption: ""
             })
             toast.success('Accounts ADD Successfully!', {
                 position: "top-center",
@@ -224,8 +225,8 @@ export default function AddAccounts() {
                                             type='number'
                                             label="Initial Deposit (Minimum 500 Rs.)"
                                             variant="standard"
-                                            name="initial"
-                                            value={state.initial}
+                                            name="amount"
+                                            value={state.amount}
                                             onChange={handleChange}
                                             className='w-50' />
                                     </Box>

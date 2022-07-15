@@ -2,22 +2,17 @@ import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { useParams } from 'react-router-dom';
 import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import SendIcon from '@mui/icons-material/Send';
 import Stack from '@mui/material/Stack';
 import AddCardIcon from '@mui/icons-material/AddCard';
 import TextField from '@mui/material/TextField';
 import { useState } from 'react';
-import { setDoc } from 'firebase/firestore';
+import { setDoc, doc, serverTimestamp, collection, addDoc } from 'firebase/firestore';
+import { firestore } from '../../../config/Firebase-uitles'
 const style = {
     position: 'absolute',
     top: '50%',
@@ -39,23 +34,34 @@ export default function ModalSigle({ single }) {
     const [amount, setAmount] = useState("")
     const [des, setDes] = useState("")
 
-    const handleClick = (e) => {
-        e.preventDefault()
-        console.log(amount);
-        console.log(des);
+    const collectionName = "transactions";
+    const docsCollectionRef = collection(firestore, collectionName);
+    let credit = "credit"
+    let amountAfterWithdraw = (single.amount) - Number(amount);
 
-        let amountAfterWithdraw = single.initial - amount
-        console.log(amountAfterWithdraw);
-        // let data = {}
-        // date.dateCreated = serverTimeStamp();
-        // data.createdBy = {
-        //     email: "user.email",
-        //     fullName: "user.fullName",
-        //     uid: "user.uid"
-        // }
+    let tranctiondata = {
+        fullname: single.fullname,
+        cinc: single.cinc,
+        Accountnumber: single.Accountnumber,
+        dateCreated: serverTimestamp(),
+        type: credit,
+        Desciption: des,
+    }
 
-        // setDoc(doc(firstore, "Accounts", single.id), { initial: amountAfterWithdraw })
-        //     .then(())
+
+
+
+    const handleClick = async (e) => {
+        e.preventDefault();
+        const docRef = await addDoc(docsCollectionRef, tranctiondata);
+        console.log(docRef);
+        setDoc(doc(firestore, "Accounts", single.id), { amount: amountAfterWithdraw }, { merge: true })
+            .then(() => {
+                setAmount("")
+                setDes("")
+            }).catch((e) => {
+                console.log(e);
+            })
     }
 
     return (
@@ -87,7 +93,7 @@ export default function ModalSigle({ single }) {
                         <TableCell className='fs-6' >
                             Balance
                         </TableCell>
-                        <TableCell className='fs-6'  >{single.initial}</TableCell>
+                        <TableCell className='fs-6'  >{single.amount}</TableCell>
                     </TableRow>
                 </TableBody>
             </Table>
@@ -110,15 +116,17 @@ export default function ModalSigle({ single }) {
                         >
                             <p>Withdraw Amount</p>
                             <TextField id="standard-basic"
-                                label={`Amount to Withdraw, Max:${single.initial}`}
+                                label={`Amount to Withdraw, Max:${single.amount}`}
                                 variant="standard"
                                 value={amount}
+                                required
                                 type="number"
                                 onChange={(e) => setAmount(e.target.value)}
                                 className='w-100 mb-4' />
                             <TextField id="standard-basic"
                                 label="Description"
                                 value={des}
+                                required
                                 onChange={(e) => setDes(e.target.value)}
                                 variant="standard" className='w-100 ' />
                             <div className='text-end mt-3'>
