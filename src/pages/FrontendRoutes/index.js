@@ -3,10 +3,12 @@ import Home from './Home'
 import { Routes, Route } from "react-router-dom"
 import Header from './components/Header/Header'
 import Footers from './components/Footers/Footers'
+import SmallHeader from './components/SmallHeader'
 
 const Index = () => {
     return (
         <>
+            <SmallHeader />
             <Header />
             <main>
                 <Routes>

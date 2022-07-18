@@ -6,6 +6,7 @@ import Header from './components/Header/Header'
 import { Route, Routes } from 'react-router-dom'
 import AddAccounts from './components/AddAccounts/AddAccounts'
 import Accounts from './Accounts/Accounts'
+import Transactions from '../DashboardRoutes/Transactions/Transactions'
 
 const Index = (props) => {
     const [toggled, setToggled] = useState(false);
@@ -26,6 +27,7 @@ const Index = (props) => {
                         <Route index element={<Dashboard />} />
                         <Route path='create' element={<AddAccounts />} />
                         <Route path='accounts' element={<Accounts />} />
+                        <Route path='transcations' element={<Transactions />} />
                     </Route>
                 </Routes>
                 <div className="app-content ">

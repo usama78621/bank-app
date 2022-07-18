@@ -18,6 +18,7 @@ import { firestore } from "../../../../config/Firebase-uitles";
 
 export default function AddAccounts() {
     const { user } = useGobalContext()
+    const [isLoading, setIsLoading] = React.useState(false)
     const [state, setState] = React.useState({
         fullname: "",
         cnic: "",
@@ -46,7 +47,7 @@ export default function AddAccounts() {
                 progress: undefined,
             })
         }
-        if (code.length !== 3) {
+        if (code.length !== 2) {
             return toast.error('You entered an invalid Branch code ' + code + ' Please enter a valid Branch code', {
                 position: "top-right",
                 autoClose: 5000,
@@ -102,7 +103,8 @@ export default function AddAccounts() {
             Desciption: "Initial Deposit"
 
         }
-        const collectionName = "Accounts";
+        setIsLoading(true)
+        const collectionName = "accounts";
         const docsCollectionRef = collection(firestore, collectionName);
         try {
             const docRef = await addDoc(docsCollectionRef, formData)
@@ -137,6 +139,7 @@ export default function AddAccounts() {
                 progress: undefined,
             })
         }
+        setIsLoading(false)
     }
 
     return (
@@ -232,7 +235,14 @@ export default function AddAccounts() {
                                     </Box>
                                 </Box>
                                 <div className='text-end p-5'>
-                                    <Button type='submit' variant="contained">ADD Accounts</Button>
+                                    <Button type='submit' variant="contained">
+                                        {!isLoading ?
+                                            "Add Account"
+                                            : <div class="spinner-grow text-dark" role="status">
+                                                <span class="sr-only">Loading...</span>
+                                            </div>
+                                        }
+                                    </Button>
                                 </div>
                             </form>
                         </div>

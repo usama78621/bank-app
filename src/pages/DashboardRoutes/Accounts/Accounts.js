@@ -7,9 +7,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
-import { firestore, } from "../../../config/Firebase-uitles";
-import { useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -20,6 +17,8 @@ import '../../../scss/_accounts.scss'
 import Stack from '@mui/material/Stack';
 import CloseIcon from '@mui/icons-material/Close';
 import { useAccountsContext } from '../../../context/AccountsContext';
+import Moment from 'moment'
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -40,6 +39,10 @@ const columns = [
     {
         id: 'Type',
         label: 'Type',
+    },
+    {
+        id: 'Date',
+        label: 'Date',
     },
     {
         id: 'Balance',
@@ -66,6 +69,7 @@ export default function Accounts() {
         handleChangeRowsPerPage,
         handleDelete
     } = useAccountsContext()
+
 
     if (isLoading) {
         return <h1 className='text-center mt-5'>...Loading</h1>
@@ -99,8 +103,7 @@ export default function Accounts() {
                                     <Button onClick={() => handleOpen(row.id)}>{row.Accountnumber}</Button>
                                     <Modal
                                         open={open}
-                                        onClose={handleClose}
-                                    >
+                                        onClose={handleClose}>
                                         <Box className='stylee'>
                                             <Typography className="d-flex justify-content-between align-items-center" id="modal-modal-title" component="div">
                                                 <span className='fs-5'>Account Details</span>
@@ -111,8 +114,7 @@ export default function Accounts() {
                                                 </Button>
                                                 <Modal
                                                     open={opendelete}
-                                                    onClose={handlecolse2}
-                                                >
+                                                    onClose={handlecolse2}>
                                                     <Box sx={style}  >
                                                         <h5>Are you sure you want to delete <br /> your Bank Account?</h5>
                                                         <Stack direction="row" className="float-end" spacing={2}>
@@ -136,9 +138,11 @@ export default function Accounts() {
                                     {row.type}
                                 </TableCell>
                                 <TableCell>
+                                    {Moment(row.dateCreated.toDate().toString()).format('L')}
+                                </TableCell>
+                                <TableCell>
                                     {row.amount}
                                 </TableCell>
-
                             </TableRow>
                         ))}
 
@@ -154,6 +158,6 @@ export default function Accounts() {
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
-        </Paper >
+        </Paper>
     );
 }

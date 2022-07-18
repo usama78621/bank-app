@@ -6,9 +6,10 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
-
+import { useAccountsContext } from '../../../context/AccountsContext'
 const Dashboard = () => {
     let Navigate = useNavigate()
+    const { documents, transdocuments } = useAccountsContext()
     return (
         <div className='container'>
             <h1>Dashboard</h1>
@@ -30,7 +31,7 @@ const Dashboard = () => {
                                 <Typography variant="body2" className='text-center fs-2'>
                                     Accounts
                                     <br />
-                                    0
+                                    {documents.length}
                                 </Typography>
                             </CardContent>
                         </Card>
@@ -46,13 +47,13 @@ const Dashboard = () => {
                                 <hr />
                                 <Typography variant="h5" className='text-center' component="div" color="text.secondary" sx={{ '& button': { m: 1 } }} >
                                     <Button size="medium"
-                                        variant="contained" color="success">View all Transactions</Button>
+                                        variant="contained" onClick={() => Navigate('/dashboard/transcations')} color="success">View all Transactions</Button>
                                 </Typography>
                                 <hr />
                                 <Typography variant="body2" className='text-center fs-2'>
                                     Transactions
                                     <br />
-                                    0
+                                    {transdocuments.length}
                                 </Typography>
                             </CardContent>
                         </Card>

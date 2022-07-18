@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ContactMailIcon from '@mui/icons-material/ContactMail';
 import '../../../../scss/_sidebar.scss'
 import {
     ProSidebar,
@@ -6,7 +7,6 @@ import {
     MenuItem,
     SidebarHeader,
     SidebarContent,
-    SubMenu
 } from "react-pro-sidebar";
 import {
     FiArrowLeftCircle,
@@ -61,22 +61,25 @@ function Sidebar({ rtl, toggled, handleToggleSidebar }) {
                     </MenuItem>
                 </Menu>
                 <Menu iconShape="circle">
-                    <SubMenu title="Products" icon={<IoBagAddSharp />}  >
-                        <MenuItem>
-                            <Link to='/dashboard/create' className="text-white">
-                                Add Accounts
-                            </Link>
-                        </MenuItem>
-                    </SubMenu>
+                    <MenuItem icon={<IoBagAddSharp />}>
+                        <Link to='/dashboard/create'>
+                            Add Accounts
+                        </Link>
+                    </MenuItem>
                 </Menu>
                 <Menu iconShape="circle">
-                    <SubMenu title="Transcations" icon={<MdAddShoppingCart />}  >
-                        <MenuItem>
-                            <Link to='/transcations' className="text-white">
-                                Transcations
-                            </Link>
-                        </MenuItem>
-                    </SubMenu>
+                    <MenuItem icon={<ContactMailIcon />}>
+                        <Link to='/dashboard/accounts'>
+                            Accounts
+                        </Link>
+                    </MenuItem>
+                </Menu>
+                <Menu iconShape="circle">
+                    <MenuItem icon={<MdAddShoppingCart />}>
+                        <Link to='/dashboard/transcations'>
+                            Transcations
+                        </Link>
+                    </MenuItem>
                 </Menu>
             </SidebarContent>
         </ProSidebar>

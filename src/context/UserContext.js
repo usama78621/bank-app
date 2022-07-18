@@ -6,7 +6,7 @@ const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
     const [Authentication, setAuthenticationRoutes] = useState(false)
-    const [user, setUser] = useState({})
+    const [user, setUser] = useState({ uid: "" })
     const [isLoader, setIsloader] = useState(true)
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
