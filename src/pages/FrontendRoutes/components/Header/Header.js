@@ -13,7 +13,11 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import '../../../../scss/_header.scss'
-
+import { useGobalContext } from '../../../../context/UserContext'
+import { Button } from '@mui/material';
+import { auth } from '../../../../config/Firebase-uitles';
+import { signOut } from 'firebase/auth'
+import { toast } from 'react-toastify'
 const drawerWidth = 240;
 const navItems = [
     {
@@ -25,16 +29,33 @@ const navItems = [
         id: 2,
         name: "Dashboard",
         url: "/dashboard"
-    }, {
-        id: 3,
-        name: "Login",
-        url: "/login"
     },
 ];
 
 function Header(props) {
     const { window } = props;
     const [mobileOpen, setMobileOpen] = React.useState(false);
+    const { user } = useGobalContext()
+
+    const handleLogout = () => {
+        signOut(auth)
+            .then(() => {
+
+                toast.success("Logout Successfully!", {
+                    position: "top-center",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
+            })
+            .catch(() => {
+                alert("error");
+            });
+    };
+
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
@@ -48,7 +69,7 @@ function Header(props) {
             <Divider />
             <List>
                 {navItems.map((item) => (
-                    <ListItem key={item} disablePadding>
+                    <ListItem key={item.id} disablePadding>
                         <ListItemButton sx={{ textAlign: 'center' }}>
                             <ListItemText primary={item.url} />
                         </ListItemButton>
@@ -83,16 +104,41 @@ function Header(props) {
                     >
                         My Bank
                     </Typography>
-                    <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-                        {navItems.map((item) => (
-                            <Link key={item.id} to={item.url} style={{
+                    <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
+                        <Link to='/' style={{
+                            textDecoration: "none",
+                            color: "#222",
+                            margin: 10,
+                            fontSize: "20px"
+                        }}>
+                            Home
+                        </Link>
+                        {user.uid &&
+                            <Link to='/dashboard' style={{
                                 textDecoration: "none",
                                 color: "#222",
                                 margin: 10,
-                            }} >
-                                {item.name}
+                                fontSize: "20px"
+                            }}>
+                                Dashboard
                             </Link>
-                        ))}
+                        }
+                        {!user.uid ?
+                            <Link to='/login' style={{
+                                textDecoration: "none",
+                                color: "#222",
+                                margin: 10,
+                                fontSize: "20px"
+
+                            }}>
+                                Login
+                            </Link>
+                            : <Button onClick={handleLogout} variant="text" style={{
+                                fontSize: "20px",
+                                color: "#222"
+
+                            }} >Logout</Button>
+                        }
                     </Box>
                 </Toolbar>
             </AppBar>
@@ -113,7 +159,7 @@ function Header(props) {
                     {drawer}
                 </Drawer>
             </Box>
-        </Box>
+        </Box >
     );
 }
 
